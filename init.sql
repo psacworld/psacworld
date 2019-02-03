@@ -1,0 +1,16 @@
+/*
+VerifiedUsers
+	id
+	name
+	email
+	password
+	xp
+	paid
+	admin
+
+UnverifiedUsers
+	id
+	email
+	password
+	code
+*/
