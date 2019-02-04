@@ -1,16 +1,52 @@
 /*
-VerifiedUsers
+verifiedusers
 	id
-	name
+	firstname
+	lastname
 	email
 	password
 	xp
 	paid
-	admin
 
-UnverifiedUsers
+unverifiedusers
 	id
+	firstname
+	lastname
 	email
 	password
 	code
+
 */
+
+
+
+CREATE TABLE unverified_users(
+   ID   INT AUTO_INCREMENT NOT NULL,
+   FIRSTNAME VARCHAR (20)     NOT NULL,
+   LASTNAME VARCHAR (20)     NOT NULL,
+   EMAIL VARCHAR (20)     NOT NULL,
+   PASSWORD VARCHAR (20)     NOT NULL,
+   CODE VARCHAR (20)     NOT NULL,
+   PRIMARY KEY (ID)
+);
+
+CREATE TABLE verified_users(
+   ID   INT AUTO_INCREMENT NOT NULL,
+   FIRSTNAME VARCHAR (20)     NOT NULL,
+   LASTNAME VARCHAR (20)     NOT NULL,
+   EMAIL VARCHAR (20)     NOT NULL,
+   PASSWORD VARCHAR (20)     NOT NULL,
+   PAID VARCHAR (10)     NOT NULL,
+   XP INT NOT NULL,
+   PRIMARY KEY (ID)
+);
+
+CREATE TABLE admins(
+   ID   INT AUTO_INCREMENT NOT NULL,
+   FIRSTNAME VARCHAR (20)     NOT NULL,
+   LASTNAME VARCHAR (20)     NOT NULL,
+   EMAIL VARCHAR (20)     NOT NULL,
+   PASSWORD VARCHAR (20)     NOT NULL,
+   XP INT NOT NULL,
+   PRIMARY KEY (ID)
+);
