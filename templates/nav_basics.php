@@ -18,8 +18,8 @@
                                 <li><a href="index.php">Home</a></li>
                                 <li><a href="signin.php">Sign in</a></li>
                                 <li><a href="register.php">Register</a></li>
-                                <li><a href="Resources.html">Resources</a></li>
-                                <li><a href="contact us.html">Contact us</a></li>
+                                <li><a href="Resources.php">Resources</a></li>
+                                <li><a href="contact us.php">Contact us</a></li>
                             </ul>
                         </div>
                         <!--/.nav-collapse -->
@@ -45,7 +45,7 @@
                                 <li><a href="index.php">Home</a></li>
                                 <li><a href="signin.php">Sign in</a></li>
                                 <li><a href="register.php">Register</a></li>
-                                <li><a href="Resources.html">Resources</a></li>
+                                <li><a href="Resources.php">Resources</a></li>
                                 <li><a href="Contact us.html">Contact us</a></li>
                             </ul>
                         </div>
@@ -54,7 +54,4 @@
                 </div>
             </div>
             <!--BEGIN SLIDER -->
-            
-
-    
         </div>
