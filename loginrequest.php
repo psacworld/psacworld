@@ -13,7 +13,7 @@
     ?>
     <div class="jumbotron">
         <h1>Please log in to access</h1>
-        <a href="index.php" class="btn btn-success" role="button">ok</a>
+        <a href="index.php" role="button"><button type="button" class="btn btn-primary">ok</button></a>
     </div>
         <?php include('templates/footer_basics.php') ?>
 </body>
