@@ -1,8 +1,0 @@
-<?php
-    ob_start();
-    session_start();
-    if ($_SESSION["admin_logged_in"] === 0)
-    {
-        header("Location: ../index.php");
-    }
-?>
