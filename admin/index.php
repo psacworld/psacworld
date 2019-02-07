@@ -7,6 +7,29 @@
         header("Location: ../index.php");
     }
     //*/
+    if ($_SERVER["REQUEST_METHOD"] == "POST") 
+    {
+        
+        $email = sanitise($_POST["email"]);    // hashing input 
+        $password = sanitise($_POST["password"]);
+
+        if(isset($_POST['email']))     // not empty
+        {
+            $checkQuery = "SELECT * from verified_users WHERE email='$email' AND password='$password'";
+            $results = mysqli_query($conn, $checkQuery);
+            
+            if (mysqli_num_rows($results) == 1)
+            {
+                echo "login successful";
+                $_SESSION["logged_in"] = 1;
+                header('Location: Resources.php');
+            }else
+            {
+                //echo "login unsuccessful";
+            }
+        }
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +73,8 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Dashboard</a></li>
         <li><a href="#">Uploads</a></li>
-        <li><a href="#">Gender</a></li>
-        <li><a href="#">Geo</a></li>
+        <li><a href="#">Notes</a></li>
+        <li><a href="#">Past Papers</a></li>
       </ul>
     </div>
   </div>
@@ -66,9 +89,9 @@
       
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">Uploads</a></li>
-        <li><a href="#section2">sas</a></li>
-        <li><a href="#section3">wd</a></li>
-        <li><a href="#section3">Geo</a></li>
+        <li><a href="#section2">Notes</a></li>
+        <li><a href="#section3">Past Papers</a></li>
+        <li><a href="#section3">Feedback</a></li>
       </ul><br>
     </div>
     <br>
@@ -86,32 +109,31 @@
           <div class="well">
             <h2>uploads</h2>
             <div class="">
-                <form class="">
+                <form 
+                  class=""
+                  method="post"
+                  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+                  enctype="multipart/form-data">
                     <div class="row container">
                         <label class="btn btn-default col-sm-4">
-                            Browse <input type="file" hidden>
+                            Browse <input 
+                            type="file" 
+                            name="file" 
+                            id="file" >
                         </label>
-                        <div class="dropdown col-sm-2">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose Subject
-                          <span class="caret"></span></button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                          </ul>
-                        </div>
-                        <div class="dropdown col-sm-2">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose type
-                          <span class="caret"></span></button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">HTML</a></li>
-                            <li><a href="#">CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                          </ul>
-                        </div>
-                        <div class="col-sm-4"></div>
+                        <select name="subject">
+                          <option value="maths">Maths</option>
+                          <option value="english">English</option>
+                          <option value="french">French</option>
+                          <option value="science">Science</option>
+                          <option value="geography">Geography</option>
+                        </select>
+                        <select name="type">
+                          <option value="notes">Notes</option>
+                          <option value="pastpapers">Past Papers</option>
+                        </select>
                     </div><br>
-                    <input type="button" class="btn btn-success" value="upload">
+                    <input type="submit" class="btn btn-success" value="upload" name="submit">
                 </form>
                 
             </div>
@@ -125,25 +147,25 @@
         <div class="col-sm-3">
           <div class="well">
             <h4>Users</h4>
-            <p>1 Million</p> 
+            <p></p> 
           </div>
         </div>
         <div class="col-sm-3">
           <div class="well">
             <h4>Pages</h4>
-            <p>100 Million</p> 
+            <p></p> 
           </div>
         </div>
         <div class="col-sm-3">
           <div class="well">
             <h4>Sessions</h4>
-            <p>10 Million</p> 
+            <p></p> 
           </div>
         </div>
         <div class="col-sm-3">
           <div class="well">
             <h4>Bounce</h4>
-            <p>30%</p> 
+            <p></p> 
           </div>
         </div>
       </div>
@@ -152,23 +174,17 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>psac</p> 
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>psac</p> 
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
+            <p>psac</p> 
           </div>
         </div>
       </div>
@@ -177,12 +193,12 @@
       <div class="row">
         <div class="col-sm-8">
           <div class="well">
-            <p>Text</p> 
+            <p>psac</p> 
           </div>
         </div>
         <div class="col-sm-4">
           <div class="well">
-            <p>Text</p> 
+            <p>psac</p> 
           </div>
         </div>
       </div>
