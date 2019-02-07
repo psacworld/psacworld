@@ -9,25 +9,51 @@
     //*/
     if ($_SERVER["REQUEST_METHOD"] == "POST") 
     {
-        
-        $email = sanitise($_POST["email"]);    // hashing input 
-        $password = sanitise($_POST["password"]);
+      
+        $typeOption = $_POST['typeOption'];
+        $subjectOption = $_POST['subjectOption'];
+        $uploadPath = '../uploads/' . $typeOption . '/' . $subjectOption . '/';
+        $target_file = $uploadPath . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-        if(isset($_POST['email']))     // not empty
-        {
-            $checkQuery = "SELECT * from verified_users WHERE email='$email' AND password='$password'";
-            $results = mysqli_query($conn, $checkQuery);
-            
-            if (mysqli_num_rows($results) == 1)
-            {
-                echo "login successful";
-                $_SESSION["logged_in"] = 1;
-                header('Location: Resources.php');
-            }else
-            {
-                //echo "login unsuccessful";
-            }
-        }
+/*
+      if(isset($_POST["submit"])) {
+          $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+          if($check !== false) {
+              echo "File is an image - " . $check["mime"] . ".";
+              $uploadOk = 1;
+          } else {
+              echo "File is not an image.";
+              $uploadOk = 0;
+          }
+      }*/
+
+      if (file_exists($target_file)) {
+          echo "Sorry, file already exists.";
+          $uploadOk = 0;
+      }
+
+      if ($_FILES["fileToUpload"]["size"] > 500000) {
+          echo "Sorry, your file is too large.";
+          $uploadOk = 0;
+      }
+
+      if($imageFileType != "pdf") {
+          echo "Sorry, pdf files are allowed.";
+          $uploadOk = 0;
+      }
+
+      if ($uploadOk == 0) {
+          echo "Sorry, your file was not uploaded.";
+      // if everything is ok, try to upload file
+      } else {
+          if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+              echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+          } else {
+              echo "Sorry, there was an error uploading your file.";
+          }
+      }
 
     }
 ?>
@@ -118,17 +144,18 @@
                         <label class="btn btn-default col-sm-4">
                             Browse <input 
                             type="file" 
-                            name="file" 
-                            id="file" >
+                            name="fileToUpload" 
+                            id="fileToUpload" 
+                            accept=".pdf">
                         </label>
-                        <select name="subject">
+                        <select name="subjectOption">
                           <option value="maths">Maths</option>
                           <option value="english">English</option>
                           <option value="french">French</option>
                           <option value="science">Science</option>
                           <option value="geography">Geography</option>
                         </select>
-                        <select name="type">
+                        <select name="typeOption">
                           <option value="notes">Notes</option>
                           <option value="pastpapers">Past Papers</option>
                         </select>
