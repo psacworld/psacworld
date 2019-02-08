@@ -6,86 +6,55 @@
 </head>
 <!-- END HEAD -->
 <body>
-<?php
+ <?php  
     $ini = parse_ini_file('app.ini.php');
     ob_start();
     session_start(); // starting session as we'll be using vars between mult pages
-    $_SESSION["logged_in"] = 0; // user
-    $_SESSION["logged_in_admin"] = 0; // admin
-    include("utils.php");
-    // define connection variables
 
-    // /***
-    // Create connection
-    $conn = new mysqli(
+    include("utils.php");
+    $conn = mysqli_connect(
         $ini['db_host'], 
         $ini['db_user'], 
         $ini['db_password'], 
-        $ini['db_name']);
-    // Check connection
-    if ($conn->connect_error) 
-    {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    // ***/
+        $ini['db_name']); 
 
-    // define form variables and set to empty values
-    
+ if(isset($_POST["login"]))  
+ {  
+      if(empty($_POST["email"]) || empty($_POST["password"]))  
+      {  
+           echo '<script>alert("Both Fields are required")</script>';  
+      }  
+      else  
+      {  print_r($_POST);
+           $email = mysqli_real_escape_string($conn, $_POST["email"]);  
+           $email = (isset($email)) ? $email : '' ;
+           $password = mysqli_real_escape_string($conn, $_POST["password"]);  
+           $password = (isset($password)) ? $password : '' ;
+           $query = "SELECT * FROM verified_users WHERE email = '$email'";  
+           $result = mysqli_query($conn, $query);  
+           if(mysqli_num_rows($result) > 0)  
+           {  
+                    $row=mysqli_fetch_assoc($result);
+                     if(password_verify($password, $row["password"]))  
+                     {  
+                          //return true;  
+                          $_SESSION["email"] = $email;  
+                          header("location:Resources.php");  
+                     }  
+                     else  
+                     {  
+                          //return false;  
+                          echo '<script>alert("Wrong User Details2")</script>';  
+                     }  
+           }  
+           else  
+           {  
+                echo '<script>alert("Wrong User Details1")</script>';  
+           }  
+      }  
+ }  
+ ?>  
 
-    // cheking for sent method
-    if ($_SERVER["REQUEST_METHOD"] == "POST") 
-    {
-        
-        $email = sanitise($_POST["email"]);    // hashing input 
-        $password = password_hash(sanitise($_POST['password']) . $ini['app_secret_key'], 
-            PASSWORD_DEFAULT);
-
-        //check if mail exist
-        $sql = "SELECT email FROM verified_users WHERE email='$email'";
-        $result = mysqli_query($conn, $sql);
-
-        if(mysqli_num_rows($result) >0){
-           //found, now getting passsword in db
-            $result = mysqli_query($conn, "SELECT password FROM verified_users WHERE email ='email'");
-            while ($row = mysqli_fetch_array($result)) 
-            {
-                $db_password = $row['password'];  
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                if(password_verify($db_password, $hashed_password)) {
-                    // If the password inputs matched the hashed password in the database
-                    echo "login successful";
-                    $_SESSION["logged_in"] = 1;
-                    header('Location: Resources.php');
-                } else
-                {
-                    echo "unsuccessful";
-                }
-            }
-            
-        }else{
-           //not found
-        }
-        /*
-
-        if(isset($_POST['email']))     // not empty
-        {
-            $checkQuery = "SELECT * from verified_users WHERE email='$email' AND password='$password'";
-            $results = mysqli_query($conn, $checkQuery);
-            
-            if (mysqli_num_rows($results) == 1)
-            {
-                echo "login successful";
-                $_SESSION["logged_in"] = 1;
-                header('Location: Resources.php');
-            }else
-            {
-                //echo "login unsuccessful";
-            }
-        }*/
-
-    }
-    
-?>
     <?php include('templates/nav_basics.php') ?>
 
         <div class="section ">
@@ -96,7 +65,8 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading ">Sign In</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" 
+                        <form 
+                                class="form-horizontal" 
                                 method="post"
                                 action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                             <div class="form-group">
@@ -112,14 +82,17 @@
                                 <label class="control-label col-sm-2" for="pwd">Password:</label>
                                 <div class="col-sm-10"> 
                                     <input type="password" class="form-control" 
-                                    id="pwd" 
+                                    id="password" 
                                     placeholder="Enter password" 
                                     name="password">
                                 </div>
                             </div>
                             <div class="form-group"> 
                                 <div class="col-sm-offset-2 col-sm-10">
-                                  <button type="submit" class="btn btn-default">Submit</button>
+                                  <button 
+                                  type="submit" 
+                                  class="btn btn-default" 
+                                  name="login">Submit</button>
                                 </div>
                             </div>
                         </form>

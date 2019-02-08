@@ -18,7 +18,6 @@
 $path = "uploads/notes/";
 
  if(is_dir($path))
-
 {
     $dir_handle = opendir($path);
 
