@@ -37,7 +37,35 @@
     {
         
         $email = sanitise($_POST["email"]);    // hashing input 
-        $password = sanitise($_POST["password"]);
+        $password = password_hash(sanitise($_POST['password']) . $ini['app_secret_key'], 
+            PASSWORD_DEFAULT);
+
+        //check if mail exist
+        $sql = "SELECT email FROM verified_users WHERE email='$email'";
+        $result = mysqli_query($conn, $sql);
+
+        if(mysqli_num_rows($result) >0){
+           //found, now getting passsword in db
+            $result = mysqli_query($conn, "SELECT password FROM verified_users WHERE email ='email'");
+            while ($row = mysqli_fetch_array($result)) 
+            {
+                $db_password = $row['password'];  
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                if(password_verify($db_password, $hashed_password)) {
+                    // If the password inputs matched the hashed password in the database
+                    echo "login successful";
+                    $_SESSION["logged_in"] = 1;
+                    header('Location: Resources.php');
+                } else
+                {
+                    echo "unsuccessful";
+                }
+            }
+            
+        }else{
+           //not found
+        }
+        /*
 
         if(isset($_POST['email']))     // not empty
         {
@@ -53,7 +81,7 @@
             {
                 //echo "login unsuccessful";
             }
-        }
+        }*/
 
     }
     
