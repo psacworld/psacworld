@@ -2,7 +2,7 @@
 session_start();
 if ($_SESSION["logged_in"] === 0)
 {
-header("Location: loginrequest.php");
+    header("Location: loginrequest.php");
 }
 ?>
 <!DOCTYPE html>

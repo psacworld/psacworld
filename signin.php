@@ -35,7 +35,8 @@
         if($result->num_rows > 0)
         {
 
-        $sql = "select firstname, lastname, email, password from verified_users where email='$email'";
+        $sql = "select firstname, lastname, email, password from verified_users 
+        where email='".$email."'";
         $result = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_array($result))
         {
@@ -44,6 +45,7 @@
         if(password_verify($password, $row["password"]))
         {
         //return true;
+        $_SESSION["logged_in"] = 1;
         $_SESSION["email"] = $email;
         $_SESSION["firstname"] = $row["firstname"];
         $_SESSION["lastname"] = $row["lastname"];

@@ -6,7 +6,7 @@
         ob_start();
         session_start(); // starting session as we'll be using vars between mult pages
         use PHPMailer\PHPMailer\PHPMailer;
-        require '../../vendor/autoload.php';
+        require 'vendor/autoload.php';
         $_SESSION["logged_in"] = 0; // user
         $_SESSION["logged_in_admin"] = 0; // admin
         include("utils.php");
@@ -19,56 +19,57 @@
         {
         $email = $password = $firstname = $lastname = $code = '';
         if(
-        empty($_POST["email"]) ||
-        empty($_POST["password"]) ||
-        empty($_POST["firstname"]) ||
-        empty($_POST["lastname"])
+            empty($_POST["email"]) ||
+            empty($_POST["password"]) ||
+            empty($_POST["firstname"]) ||
+            empty($_POST["lastname"])
         )
         {
-        echo '<script>alert("Please fill all fields")</script>';
+            echo '<script>alert("Please fill all fields")</script>';
         }
         else
         {
-        $email = mysqli_real_escape_string($conn, $_POST["email"]);
-        $password = mysqli_real_escape_string($conn, $_POST["password"]);
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $firstname = mysqli_real_escape_string($conn, $_POST["firstname"]);
-        $lastname = mysqli_real_escape_string($conn, $_POST["lastname"]);
-        $code = substr(md5(mt_rand()),0,15);
-        $query = "INSERT INTO unverified_users(
-        firstname,
-        lastname,
-        email,
-        password,
-        code
-        ) VALUES(
-        '$firstname',
-        '$lastname',
-        '$email',
-        '$password',
-        '$code')";
+            $email = mysqli_real_escape_string($conn, $_POST["email"]);
+            $password = mysqli_real_escape_string($conn, $_POST["password"]);
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $firstname = mysqli_real_escape_string($conn, $_POST["firstname"]);
+            $lastname = mysqli_real_escape_string($conn, $_POST["lastname"]);
+            $code = substr(md5(mt_rand()),0,15);
+            $query = "INSERT INTO unverified_users(
+            firstname,
+            lastname,
+            email,
+            password,
+            code
+            ) VALUES(
+            '$firstname',
+            '$lastname',
+            '$email',
+            '$password',
+            '$code')";
         if(mysqli_query($conn, $query))
         {
             $mail = new PHPMailer;
             $mail->isSMTP();
-            $mail->SMTPDebug = 2;
-            $mail->Host = 'mail.compilertest.online';
-            $mail->Port = 587;
+            $mail->SMTPDebug = (int)$ini['mail_smtp_debug'];
+            $mail->Host = $ini['mail_smtp_host'];
+            $mail->Port = $ini['mail_smtp_port'];
             $mail->SMTPAuth = true;
-            $mail->Username = 'admin@compilertest.online';
-            $mail->Password = 'pass1234pass1234';
-            $mail->setFrom('admin@compilertest.online', 'Your Name');
-            $mail->addReplyTo('admin@compilertest.online', 'Your Name');
-            $mail->addAddress('ping@compileralchemy.com', 'Receiver Name');
-            $mail->Subject = 'PHPMailer SMTP message';
-            $mail->msgHTML('<a href="http://psac.compilertest.online/me/psac/verify.php?email='.$email.'&code='.$code.'">verify</a>');
+            $mail->Username = $ini['mail_from'];
+            $mail->Password = $ini['mail_password'];
+            $mail->setFrom($ini['mail_from'], 'PSAC World');
+            $mail->addReplyTo($ini['mail_reply'], 'PSAC World');
+            $mail->addAddress($email, $firstname .' '. $lastname);
+            $mail->Subject = 'Verify Your Psac Registration';
+            $mail->msgHTML('<a href="http://psac.compilertest.online/me/psac/verify.php?email='.$email.'&code='.$code.'">verify </a> dear '.
+                $firstname .' '. $lastname);
             $mail->AltBody = 'This is a plain text message body';
             if (!$mail->send()) {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
             } else {
                 echo 'Message sent!';
             }
-        echo '<script>alert("Registration Done. Verify Mail")</script>';
+            echo '<script>alert("Registration Done. Verify Mail")</script>';
         }
         }
         }
