@@ -9,7 +9,10 @@ db_user     = "root"
 db_password = ""
 
 [libs]
+;DEV
 autoload_url = "vendor/autoload.php"
+;PROD
+;autoload_url = "../../vendor/autoload.php"
 
 [mail]
 mail_smtp_host = "mail.compilertest.online"

@@ -2,11 +2,12 @@
 <html>
     <head>
         <?php
-        $ini = parse_ini_file('app.ini.php');
         ob_start();
+        $ini = parse_ini_file('app.ini.php');
+        
         session_start(); // starting session as we'll be using vars between mult pages
         use PHPMailer\PHPMailer\PHPMailer;
-        require 'vendor/autoload.php';
+        require $ini['autoload_url'];
         $_SESSION["logged_in"] = 0; // user
         $_SESSION["logged_in_admin"] = 0; // admin
         include("utils.php");
@@ -49,6 +50,7 @@
             '$code')";
         if(mysqli_query($conn, $query))
         {
+            echo '1';
             $mail = new PHPMailer;
             $mail->isSMTP();
             $mail->SMTPDebug = (int)$ini['mail_smtp_debug'];

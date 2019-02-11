@@ -51,7 +51,7 @@
         $_SESSION["lastname"] = $row["lastname"];
 
         header("Location:Resources.php");
-        exit();
+        
         }
         else
         {
