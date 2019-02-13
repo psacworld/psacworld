@@ -2,6 +2,33 @@
 <html>
     <head>
         <?php include('templates/head_basics.php') ?>
+        <?php 
+function listFolderFiles($dir){
+    $ffs = scandir($dir);
+
+    unset($ffs[array_search('.', $ffs, true)]);
+    unset($ffs[array_search('..', $ffs, true)]);
+
+    // prevent empty ordered elements
+    if (count($ffs) < 1)
+        return;
+
+    echo '<ol>';
+    foreach($ffs as $ff){
+        echo '<li class="data"><a href="'.$dir.'/'.$ff.'">'.$ff;
+        if(is_dir($dir.'/'.$ff)) listFolderFiles($dir.'/'.$ff);
+        echo '</a></li>';
+    }
+    echo '</ol>';
+}
+         ?>
+        <style type="text/css" media="screen">
+            .data{
+                padding: 5px;border-radius:5px;
+                color: black;
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <!-- END HEAD -->
     <body>
@@ -11,42 +38,64 @@
                 <div class="jumbotron bg-green">
 
                 </div>
-                <?php
-                $path = "uploads/notes/";
-                if(is_dir($path))
-                {
-                $dir_handle = opendir($path);
-                //extra check to see if it's a directory handle.
-                //loop round one directory and read all it's content.
-                //readdir takes optional parameter of directory handle.
-                //if you only scan one single directory then no need to passs in argument.
-                //if you are then going to scan into sub-directories the argument needs
-                //to be passed into readdir.
-                while (($dir = readdir($dir_handle))!== false)
-                {
-                if(is_dir($dir))
-                {
-                echo "is dir: " . $dir . "<br>";
-                if($dir == "mkdir")
-                {
-                $sub_dir_handle = opendir($dir);
-                while(($sub_dir = readdir($sub_dir_handle))!== false)
-                {
-                echo "--> --> contents=$sub_dir <br>";
-                }
-                }
-                }
-                elseif(is_file($dir))
-                {
-                echo "is file: " . $dir . "<br>"  ;
-                }
-                }
-                closedir($dir_handle); //will close the automatically open dir.
-                }
-                else {
-                echo "is not a directory";
-                }
-                ?>
+                <h1 class="">
+                    NOTES
+                </h1>
+                <div class="well">
+                    <h2>ENGLISH</h2>
+                    <div>
+                    <?php
+                    $dir = "uploads/notes/english";
+                    // Open a directory, and read its contents
+                    // Open a directory, and read its contents
+                    listFolderFiles($dir);
+                    ?>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>FRENCH</h2>
+                    <div>
+                    <?php
+                    $dir = "uploads/notes/french";
+                    // Open a directory, and read its contents
+                    // Open a directory, and read its contents
+                    listFolderFiles($dir);
+                    ?>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>MATHS</h2>
+                    <div>
+                    <?php
+                    $dir = "uploads/notes/maths";
+                    // Open a directory, and read its contents
+                    // Open a directory, and read its contents
+                    listFolderFiles($dir);
+                    ?>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>SCIENCE</h2>
+                    <div>
+                    <?php
+                    $dir = "uploads/notes/science";
+                    // Open a directory, and read its contents
+                    // Open a directory, and read its contents
+                    listFolderFiles($dir);
+                    ?>
+                    </div>
+                </div>
+                <div class="well">
+                    <h2>GEOGRAPHY</h2>
+                    <div>
+                    <?php
+                    $dir = "uploads/notes/geography";
+                    // Open a directory, and read its contents
+                    // Open a directory, and read its contents
+                    listFolderFiles($dir);
+                    ?>
+                    </div>
+                </div>
             </div>
         </div>
 
