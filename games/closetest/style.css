@@ -1,0 +1,9 @@
+.ans{
+	width: 100px;
+	outline: none;
+	border-width: 0;
+	border-bottom: 5px solid green;
+	text-align: center;
+	padding-bottom: 5px;
+	
+}
