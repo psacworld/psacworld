@@ -1,20 +1,4 @@
-/*
-verifiedusers
-	firstname
-	lastname
-	email
-	password
-	xp
-	paid
 
-unverifiedusers
-	firstname
-	lastname
-	email
-	password
-	code
-
-*/
 
 
 

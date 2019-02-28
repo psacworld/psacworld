@@ -30,3 +30,10 @@
     <script type="text/javascript" src="assets/plugins/slider-plugin/js/slider2.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/plugins/slider-plugin/css/settings.css"
         media="screen" />
+    <script src="/javascripts/application.js" type="text/javascript" charset="utf-8">
+            $( document ).ready(function(){
+                $('.profimg').click(function(){
+                    alert(1);
+                });
+            });
+        </script>

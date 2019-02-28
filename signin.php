@@ -24,7 +24,7 @@
         {
         if(empty($_POST["email"]) || empty($_POST["password"]))
         {
-        echo '<script>alert("Both Fields are required")</script>';
+            echo '<script>alert("Both Fields are required")</script>';
         }
         else
         {
@@ -35,7 +35,7 @@
         if($result->num_rows > 0)
         {
 
-        $sql = "select firstname, lastname, email, password from verified_users 
+        $sql = "select firstname, lastname, email, password, avatar from verified_users 
         where email='".$email."'";
         $result = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_array($result))
@@ -49,6 +49,7 @@
         $_SESSION["email"] = $email;
         $_SESSION["firstname"] = $row["firstname"];
         $_SESSION["lastname"] = $row["lastname"];
+        $_SESSION["avatar"] = $row["avatar"];
 
         header("Location:Resources.php");
         

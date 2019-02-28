@@ -1,13 +1,19 @@
+<?php
+ob_start();
+session_start();
+if ($_SESSION["logged_in"] === 0) {
+    header("Location: loginrequest.php");
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="/javascripts/application.js" type="text/javascript" charset="utf-8">
-            function onLoad(){
-               alert(1);
-            }
-        </script>
+        
         <?php include('templates/head_basics.php') ?>
         <?php 
+        $email = $_SESSION["email"];
+        $avatar = $_SESSION["avatar"];
+        //echo 'avatar is: -'.$avatar . '-';
          ?>
 
         <style type="text/css" media="screen">
@@ -38,7 +44,7 @@
 
     </head>
     <!-- END HEAD -->
-    <body  onload="onLoad()">
+    <body>
         <?php include('templates/nav_basics.php') ?>
         
         <div class="section ">
@@ -50,7 +56,7 @@
                     <div class="row">
                       <div class="col-sm-4">
                           <div class="profilepic">
-                              <img id="profilepicture" src="assets/img/profile/prof1.svg">
+                              <img id="profilepicture" src="assets/img/profile/<?= $avatar ?>">
                           </div>
                           <button class="btn btn-info" data-toggle="collapse" data-target="#chooseprofpic">change</button>
                       </div>
@@ -68,25 +74,25 @@
 
                     <div style="">
                         <div class="profpic">
-                            <img onclick="changeIt(this.src)" class="profimg" src="assets/img/profile/prof1.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof1.svg">
                         </div>
                         <div class="profpic">
-                            <img class="profimg" src="assets/img/profile/prof2.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof2.svg">
                         </div>
                         <div class="profpic">
-                            <img class="profimg" src="assets/img/profile/prof3.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof3.svg">
                         </div>
                         <div class="profpic">
-                            <img class="profimg" src="assets/img/profile/prof4.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof4.svg">
                         </div>
                         <div class="profpic">
-                            <img class="profimg" src="assets/img/profile/prof5.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof5.svg">
                         </div>
                         <div class="profpic">
-                            <img class="profimg" src="assets/img/profile/prof6.svg">
+                            <img onclick="document.getElementById('profilepicture').src=this.src" class="profimg" src="assets/img/profile/prof6.svg">
                         </div>
                     </div>
-                    <button class="btn btn-info">save</button>
+                    <button class="btn btn-info" onclick="var picSrc=document.getElementById('profilepicture').src;var arr=picSrc.split('/');var url='change_profilepic.php?email=<?= $email ?>&pic='+arr[arr.length-1];alert(url);window.location.href = url;">save</button>
                 </div>
                 <div class="well" style="">
                     <div class="" style="text-align: center; display: inline-block; width: 100%" >

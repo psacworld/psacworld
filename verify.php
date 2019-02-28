@@ -25,19 +25,21 @@ if(isset($_GET['email']) && isset($_GET['code']))
         $firstname=$row['firstname'];
         $lastname=$row['lastname'];
         $pass=$row['password'];
-        $sql = "insert into verified_users values('$firstname', '$lastname','$email','$pass', 'no', 0)";
+        $date=date("Y-m-d");
+        $sql = "insert into verified_users values('$firstname', '$lastname','$email','$pass', 'no', 0, 'prof1.svg')";
         #$results = mysqli_query($conn, $sql);
         if ($conn->query($sql) === TRUE)
         {
 
         } else
         {
-        echo "Error inserting values: " . $conn->error;
+            echo "Error inserting values: " . $conn->error;
         }
         $sql = "delete from unverified_users where email='$email' and code='$code'";
         $result = mysqli_query($conn, $sql);
         if ($conn->query($sql) === TRUE)
         {
+            header("Location: signin.php");
         } else
         {
             echo "Error deleting " . $conn->error;
