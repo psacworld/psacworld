@@ -9,9 +9,9 @@ $mail->Port = 587;
 $mail->SMTPAuth = true;
 $mail->Username = 'admin@compilertest.online';
 $mail->Password = 'pass1234pass1234';
-$mail->setFrom('admin@compilertest.online', 'Your Name');
-$mail->addReplyTo('admin@compilertest.online', 'Your Name');
-$mail->addAddress('ping@compileralchemy.com', 'Receiver Name');
+$mail->setFrom('mail', 'Your Name');
+$mail->addReplyTo('mail', 'Your Name');
+$mail->addAddress('mail', 'Receiver Name');
 $mail->Subject = 'PHPMailer SMTP message';
 $mail->Body = 'This is a plain text message body';
 if (!$mail->send()) {
